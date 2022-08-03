@@ -1,17 +1,17 @@
 import { Breadcrumb, Layout, Collapse, Avatar, Row, Button, List, Divider } from 'antd';
-import { Outlet, useLocation, Link, useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function UserList() {
 	const [userList, setUserList] = useState([])
+
 	useEffect(() => {
 		axios.get('http://localhost:8080/api/users')
 			.then(response => {
 				setUserList(response.data)
-				console.log(response.data)
 			})
 	}, [])
+	
 	const userGenerator = (name, phoneNumber, email, id) => {
 		return (
 			<Collapse.Panel key={id} header={< p > <Avatar src="https://joeschmoe.io/api/v1/random" /> {name}</p >}>
@@ -84,13 +84,9 @@ export default function UserList() {
 			{/* main content start */}
 			<Layout className="site-layout-background">
 				<Collapse  >
-
-
-
 					{userList.map((user, id) => {
 						return userGenerator(user.name, user.phoneNumber, user.email, id)
 					})}
-
 				</Collapse>
 			</Layout>
 		</Layout>
